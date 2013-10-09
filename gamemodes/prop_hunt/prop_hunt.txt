@@ -1,8 +1,8 @@
 "Gamemode"
 {
 	"base"		"base"
-	"title"		"Prop Hunt"
-	"maps"          "^cs_|^de_|^ph_"
+	"title"		"Prop Hunt (mitch_prop_hunt)"
+	"maps"      "^cs_|^de_|^ph_"
 
 	"fretta_maps"
         {
