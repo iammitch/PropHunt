@@ -138,6 +138,7 @@ end
 
 // Called when player presses [F3]. Plays a taunt for their team
 function GM:ShowSpare1(pl)
+--[[
 	if GAMEMODE:InRound() && pl:Alive() && (pl:Team() == TEAM_HUNTERS || pl:Team() == TEAM_PROPS) && pl.last_taunt_time + TAUNT_DELAY <= CurTime() && #PROP_TAUNTS > 1 && #HUNTER_TAUNTS > 1 then
 		repeat
 			if pl:Team() == TEAM_HUNTERS then
@@ -152,6 +153,7 @@ function GM:ShowSpare1(pl)
 		
 		pl:EmitSound(rand_taunt, 100)
 	end	
+]]
 end
 
 
@@ -219,10 +221,17 @@ function GM:RoundTimerEnd()
 	GAMEMODE:RoundEndWithResult(TEAM_PROPS, "Props win!")
 end
 
+function PropPlacement()
+	for _, ent in pairs(ents.GetAll()) do
+		print ( ent.GetName( ) )
+	end
+end
 
 // Called before start of round
 function GM:OnPreRoundStart(num)
 	game.CleanUpMap()
+
+	PropPlacement( )
 	
 	if GetGlobalInt("RoundNumber") != 1 && SWAP_TEAMS_EVERY_ROUND == 1 && (team.GetScore(TEAM_PROPS) + team.GetScore(TEAM_HUNTERS)) > 0 then
 		for _, pl in pairs(player.GetAll()) do
