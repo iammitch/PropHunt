@@ -28,9 +28,8 @@ USABLE_PROP_ENTITIES = {
 
 
 // Send the required resources to the client
-for _, taunt in pairs(HUNTER_TAUNTS) do resource.AddFile("sound/"..taunt) end
-for _, taunt in pairs(PROP_TAUNTS) do resource.AddFile("sound/"..taunt) end
-
+//for _, taunt in pairs(HUNTER_TAUNTS) do resource.AddFile("sound/"..taunt) end
+//for _, taunt in pairs(PROP_TAUNTS) do resource.AddFile("sound/"..taunt) end
 
 // Called alot
 function GM:CheckPlayerDeathRoundEnd()
