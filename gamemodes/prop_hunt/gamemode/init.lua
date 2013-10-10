@@ -237,7 +237,7 @@ end
 
 function PropPlacement( )
 	for _, ent in pairs(ents.GetAll()) do
-		ent:Remove()
+		print(ent:GetModel())
 	end
 end
 
