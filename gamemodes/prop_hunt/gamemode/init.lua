@@ -68,7 +68,7 @@ function GenerateRegion(data)
 	end
 end
 
-if file.Exists("../gamemodes/prop_hunt/gamemode/map_data/"..game.GetMap()..".lua", "LUA") then
+if file.Exists("map_data/"..game.GetMap()..".lua", "GAME") then
 	include("map_data/"..game.GetMap()..".lua")
 end
 
