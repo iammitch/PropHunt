@@ -1,5 +1,3 @@
-print(GetConVarNumber("HUNTER_KILL_BONUS"))
-
 // Send the required lua files to the client
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("sh_config.lua")
@@ -26,10 +24,27 @@ USABLE_PROP_ENTITIES = {
 	"prop_physics_multiplayer"
 }
 
+PROP_ZONES = {
+}
+
+function DefinePropZone(name, bound_1, bound_2 )
+
+end
+
+function DefinePropConfiguration(name, config)
+
+end
+
+if file.Exists("../gamemodes/prop_hunt/gamemode/map_zones/"..game.GetMap()..".lua", "LUA") then
+	include("map_zones/"..game.GetMap()..".lua")
+end
+
 // Send the required resources to the client
+--[[
+Removed from this vesrion.
 for _, taunt in pairs(HUNTER_TAUNTS) do resource.AddFile("sound/"..taunt) end
 for _, taunt in pairs(PROP_TAUNTS) do resource.AddFile("sound/"..taunt) end
-
+]]
 
 // Called alot
 function GM:CheckPlayerDeathRoundEnd()
@@ -137,6 +152,7 @@ end
 
 // Called when player presses [F3]. Plays a taunt for their team
 function GM:ShowSpare1(pl)
+	--[[
 	if GAMEMODE:InRound() && pl:Alive() && (pl:Team() == TEAM_HUNTERS || pl:Team() == TEAM_PROPS) && pl.last_taunt_time + TAUNT_DELAY <= CurTime() && #PROP_TAUNTS > 1 && #HUNTER_TAUNTS > 1 then
 		repeat
 			if pl:Team() == TEAM_HUNTERS then
@@ -151,6 +167,7 @@ function GM:ShowSpare1(pl)
 		
 		pl:EmitSound(rand_taunt, 100)
 	end	
+	]]
 end
 
 
@@ -218,12 +235,20 @@ function GM:RoundTimerEnd()
 	GAMEMODE:RoundEndWithResult(TEAM_PROPS, "Props win!")
 end
 
+function PropPlacement( )
+	for _, ent in pairs(ents.GetAll()) do
+		ent:Remove()
+	end
+end
 
 // Called before start of round
 function GM:OnPreRoundStart(num)
+
 	game.CleanUpMap()
-	
-		if GetGlobalInt("RoundNumber") != 1 && (SWAP_TEAMS_EVERY_ROUND == 1 || ((team.GetScore(TEAM_PROPS) + team.GetScore(TEAM_HUNTERS)) > 0 || SWAP_TEAMS_POINTS_ZERO==1)) then
+
+	PropPlacement ( )
+
+	if GetGlobalInt("RoundNumber") != 1 && (SWAP_TEAMS_EVERY_ROUND == 1 || ((team.GetScore(TEAM_PROPS) + team.GetScore(TEAM_HUNTERS)) > 0 || SWAP_TEAMS_POINTS_ZERO==1)) then
 		for _, pl in pairs(player.GetAll()) do
 			if pl:Team() == TEAM_PROPS || pl:Team() == TEAM_HUNTERS then
 				if pl:Team() == TEAM_PROPS then
