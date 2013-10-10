@@ -24,19 +24,52 @@ USABLE_PROP_ENTITIES = {
 	"prop_physics_multiplayer"
 }
 
-PROP_ZONES = {
-}
+REGIONS = {}
 
-function DefinePropZone(name, bound_1, bound_2 )
+function DefineRegion(name,x1,y1,z1,x2,y2,z2)
+	print("Defining region '"..name.."'...")
+	n = name
+	v1 = Vector(x1,y1,z1)
+	v2 = Vector(x2,y2,z2)
+	REGIONS[n] = {
+		point_1 = v1,
+		point_2 = v2,
+		templates = {}
+	}
+end
+
+function DefineRegionTemplate(name, data)
+
+	if REGIONS[name] == nil then
+		print("Unknown region '" .. name .."', skipping this template.")
+		return
+	end
+
+	table.insert(REGIONS[name].templates, data)
 
 end
 
-function DefinePropConfiguration(name, config)
-
+function ClearRegion(region)
+	for _, ent in pairs(ents.FindInBox(region.point_1, region.point_2)) do
+		mName = ent:GetModel()
+		if mName != nil and ( string.match ( mName, "prop" ) or string.match ( mName, "gibs" ) ) then
+			ent:Remove()
+		end
+	end
 end
 
-if file.Exists("../gamemodes/prop_hunt/gamemode/map_zones/"..game.GetMap()..".lua", "LUA") then
-	include("map_zones/"..game.GetMap()..".lua")
+function GenerateRegion(data)
+	for _, ent_template in pairs(data) do
+		ent = ents.Create("prop_physics")
+		ent:SetModel(ent_template[1])
+		ent:SetPos(Vector(ent_template[2], ent_template[3], ent_template[4]))
+		ent:SetAngles(Angle(ent_template[5], ent_template[6], ent_template[7]))
+		ent:Spawn()
+	end
+end
+
+if file.Exists("../gamemodes/prop_hunt/gamemode/map_data/"..game.GetMap()..".lua", "LUA") then
+	include("map_data/"..game.GetMap()..".lua")
 end
 
 // Send the required resources to the client
@@ -229,15 +262,16 @@ hook.Add("RoundEnd", "PH_RoundEnd", RoundEnd)
 // This is called when the round time ends (props win)
 function GM:RoundTimerEnd()
 	if !GAMEMODE:InRound() then
-		return
-	end
+		end
+	return
    
 	GAMEMODE:RoundEndWithResult(TEAM_PROPS, "Props win!")
 end
 
 function PropPlacement( )
-	for _, ent in pairs(ents.GetAll()) do
-		print(ent:GetModel())
+	for name, data in pairs(REGIONS) do
+		ClearRegion(data)
+		GenerateRegion(table.Random(data.templates))
 	end
 end
 
