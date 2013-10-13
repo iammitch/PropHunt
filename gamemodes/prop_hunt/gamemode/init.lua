@@ -1,17 +1,10 @@
 // Send the required lua files to the client
-AddCSLuaFile( "cl_init.lua" )
-AddCSLuaFile( "cl_halo.lua" )
-AddCSLuaFile( "cl_init_fretta.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "shared_player.lua" )
 AddCSLuaFile( "config.lua" )
 AddCSLuaFile( 'skin.lua' )
 AddCSLuaFile( 'player_class.lua' )
 AddCSLuaFile( 'class_default.lua' )
-AddCSLuaFile( 'cl_splashscreen.lua' )
-AddCSLuaFile( 'cl_selectscreen.lua' )
-AddCSLuaFile( 'cl_gmchanger.lua' )
-AddCSLuaFile( 'cl_help.lua' )
 AddCSLuaFile( 'player_extension.lua' )
 AddCSLuaFile( 'vgui/vgui_hudlayout.lua' )
 AddCSLuaFile( 'vgui/vgui_hudelement.lua' )
@@ -22,10 +15,17 @@ AddCSLuaFile( 'vgui/vgui_scoreboard.lua' )
 AddCSLuaFile( 'vgui/vgui_scoreboard_team.lua' )
 AddCSLuaFile( 'vgui/vgui_scoreboard_small.lua' )
 AddCSLuaFile( 'vgui/vgui_vote.lua' )
+AddCSLuaFile( "cl_init.lua" )
+AddCSLuaFile( "cl_halo.lua" )
+AddCSLuaFile( "cl_init_fretta.lua" )
 AddCSLuaFile( 'cl_hud.lua' )
 AddCSLuaFile( 'cl_deathnotice.lua' )
 AddCSLuaFile( 'cl_scores.lua' )
 AddCSLuaFile( 'cl_notify.lua' )
+AddCSLuaFile( 'cl_splashscreen.lua' )
+AddCSLuaFile( 'cl_selectscreen.lua' )
+AddCSLuaFile( 'cl_gmchanger.lua' )
+AddCSLuaFile( 'cl_help.lua' )
 AddCSLuaFile( 'player_colours.lua' )
 
 include( "init_fretta.lua" )
@@ -228,6 +228,18 @@ function GM:ShowSpare1(pl)
 		pl:EmitSound(rand_taunt, 100)
 	end	
 	]]
+end
+
+function GM:KeyPress( ply, bind )
+	if ply:Team() == TEAM_PROPS and bind == IN_DUCK then
+		ply.ignore_rotation = !ply.ignore_rotation
+		print(ply:GetName() .. " toggled prop rotation lock!")
+		if ply.ignore_rotation then
+			ply:ChatPrint("Prop Rotation Lock: ENABLED")
+		else
+			ply:ChatPrint("Prop Rotation Lock: DISABLED")
+		end
+	end
 end
 
 
