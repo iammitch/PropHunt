@@ -37,7 +37,6 @@ HUNTER_TAUNTS = {
 	"taunts/you_underestimate_the_power.wav"
 }
 
-
 // Sound files props can taunt with
 // You need at least 2 files listed here
 PROP_TAUNTS = {

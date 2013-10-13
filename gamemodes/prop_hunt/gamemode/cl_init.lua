@@ -1,6 +1,8 @@
 // Include the needed files
-include("sh_init.lua")
+include("shared.lua")
 //include("cl_hints.lua")
+include("cl_init_fretta.lua")
+include("cl_halo.lua")
 
 // Decides where  the player view should be (forces third person for props)
 function GM:CalcView(pl, origin, angles, fov)

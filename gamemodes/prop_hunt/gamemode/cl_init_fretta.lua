@@ -4,6 +4,7 @@ function surface.CreateLegacyFont(font, size, weight, antialias, additive, name,
 end
 
 include( 'shared.lua' )
+include( 'shared_player.lua' )
 include( 'cl_splashscreen.lua' )
 include( 'cl_selectscreen.lua' )
 include( 'cl_gmchanger.lua' )
@@ -181,3 +182,4 @@ function GM:TeamChangeNotification( ply, oldteam, newteam )
 	end
 end
 usermessage.Hook( "fretta_teamchange", function( um )  if( GAMEMODE && um ) then  GAMEMODE:TeamChangeNotification( um:ReadEntity(), um:ReadShort(), um:ReadShort() ) end end )
+
